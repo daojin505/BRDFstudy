@@ -26,7 +26,7 @@ def fresnel(x, nv, nl):
     hv = nv - nh
     # calculation F value not related to the normal direction
     cos_val = np.maximum(np.cos(hv * math.pi / 180), 0)
-    F0 = 0.8
+    F0 = 0.99
     Fs = F0 + (1.0 - F0) * ((1 - cos_val) ** 5)
     return Fs
 
@@ -35,12 +35,12 @@ def brdf(x, nv, nl):
 
 def cos(x, nv, nl):
     nh = (nl + nv) / 2
-    return np.cos(nh/180.0*math.pi)**(1.0/ x)
+    return np.cos(nh/180.0*math.pi)**(100* x)
 
 print(np.cos(math.pi/3))
 func = [brdf, fresnel, geometrySchlickGGX, ndf, cos]
 
-n_rows, n_cols = 1, len(func)
+n_rows, n_cols = 2, int((len(func) + 1)/2)
 fig, axes = plt.subplots(n_rows, n_cols, figsize=(4 * n_cols, 3 * n_rows))
 
 
@@ -48,7 +48,7 @@ print(axes)
 print(fig)
 zip(func, axes.ravel())
 theta = np.linspace(-90, 90, num= 100) #dot
-X = np.linspace(0.2, 0.99,num= 5) #roughness
+X = np.linspace(0.3, 0.8,num= 5) #roughness
 #print(theta)
 #print(X)
 
